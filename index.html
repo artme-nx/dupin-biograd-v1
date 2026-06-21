@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Dupin — Restoran i konoba · Biograd na Moru</title>
+<meta name="description" content="Dupin — restoran svježe ribe i plodova mora u Biogradu na Moru. Dalmatinska kuhinja uz more, marinu i okus Jadrana. Rezervirajte stol." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --sand:#F7F3EC; --sand-2:#EFE8DC; --ink:#142B3A;
+    --navy:#0E2B43; --teal:#2A9D8F; --teal-d:#1F7A70;
+    --amber:#E5A14B; --line:#D8CFC0; --muted:#5C6B74;
+    --maxw:1240px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Inter',sans-serif; background:var(--sand); color:var(--ink);
+    line-height:1.6; -webkit-font-smoothing:antialiased; overflow-x:hidden;
+  }
+  h1,h2,h3{font-family:'Fraunces',serif; font-weight:500; line-height:1.08; letter-spacing:-0.01em}
+  .serif-alt{font-family:'Cormorant Garamond',serif}
+  img{display:block; max-width:100%}
+  a{color:inherit; text-decoration:none}
+  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 clamp(20px,5vw,64px)}
+  .eyebrow{font-size:.72rem; letter-spacing:.28em; text-transform:uppercase; color:var(--teal-d); font-weight:600}
+
+  /* Header */
+  header{
+    position:fixed; top:0; left:0; right:0; z-index:50;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px clamp(20px,5vw,64px); transition:.4s ease;
+  }
+  header.scrolled{background:rgba(247,243,236,.88); backdrop-filter:blur(12px); box-shadow:0 1px 0 var(--line); padding:12px clamp(20px,5vw,64px)}
+  .logo{font-family:'Fraunces',serif; font-size:1.5rem; font-weight:600; letter-spacing:.02em; color:var(--navy); display:flex; align-items:center; gap:10px}
+  .logo svg{width:30px;height:30px}
+  header.hero-light .logo, header.hero-light .nav a{color:#fff}
+  header.scrolled.hero-light .logo, header.scrolled.hero-light .nav a{color:var(--ink)}
+  .nav{display:flex; align-items:center; gap:34px}
+  .nav a{font-size:.82rem; letter-spacing:.06em; text-transform:uppercase; font-weight:500; opacity:.9; transition:.25s}
+  .nav a:hover{opacity:1; color:var(--teal)}
+  .btn-res{
+    background:var(--teal); color:#fff !important; padding:11px 22px; border-radius:40px;
+    font-size:.78rem; letter-spacing:.08em; text-transform:uppercase; font-weight:600;
+    transition:.3s; white-space:nowrap;
+  }
+  .btn-res:hover{background:var(--teal-d); transform:translateY(-1px)}
+  .nav-links{display:flex; gap:34px; align-items:center}
+  .burger{display:none}
+
+  /* Hero */
+  .hero{position:relative; height:100svh; min-height:620px; display:flex; align-items:flex-end; overflow:hidden}
+  .hero-media{position:absolute; inset:0; z-index:-2}
+  .hero-media img{width:100%; height:120%; object-fit:cover; will-change:transform}
+  .hero::after{content:""; position:absolute; inset:0; z-index:-1;
+    background:linear-gradient(180deg,rgba(14,43,67,.32) 0%,rgba(14,43,67,.05) 38%,rgba(14,43,67,.55) 100%)}
+  .hero-inner{padding-bottom:clamp(48px,9vh,110px); color:#fff; max-width:920px}
+  .hero h1{font-size:clamp(2.9rem,8vw,6.4rem); font-weight:500; letter-spacing:-0.02em; text-shadow:0 2px 30px rgba(0,0,0,.25)}
+  .hero h1 em{font-style:italic; font-family:'Cormorant Garamond',serif; font-weight:400}
+  .hero p.tag{font-family:'Cormorant Garamond',serif; font-size:clamp(1.2rem,2.6vw,1.7rem); margin-top:18px; max-width:560px; font-style:italic; opacity:.95}
+  .hero .meta{display:flex; gap:26px; flex-wrap:wrap; margin-top:30px; font-size:.82rem; letter-spacing:.1em; text-transform:uppercase}
+  .hero .meta span{display:flex; align-items:center; gap:8px}
+  .scroll-ind{position:absolute; bottom:26px; left:50%; transform:translateX(-50%); z-index:2; color:#fff; display:flex; flex-direction:column; align-items:center; gap:8px; font-size:.68rem; letter-spacing:.25em; text-transform:uppercase; opacity:.85}
+  .scroll-ind .mouse{width:24px; height:38px; border:1.5px solid rgba(255,255,255,.7); border-radius:14px; position:relative}
+  .scroll-ind .mouse::after{content:""; position:absolute; top:7px; left:50%; transform:translateX(-50%); width:3px; height:7px; border-radius:3px; background:#fff; animation:scrolldot 1.8s infinite}
+  @keyframes scrolldot{0%{opacity:0;transform:translate(-50%,0)}40%{opacity:1}80%{opacity:0;transform:translate(-50%,10px)}100%{opacity:0}}
+
+  /* Section base */
+  section{position:relative}
+  .pad{padding:clamp(80px,12vh,150px) 0}
+  .reveal{opacity:0; transform:translateY(40px)}
+
+  /* Wave divider */
+  .wave{display:block; width:100%; color:var(--teal); opacity:.55}
+  .wave svg{width:100%; height:auto}
+
+  /* Intro / manifest */
+  .manifest{display:grid; grid-template-columns:1fr 1fr; gap:clamp(40px,7vw,100px); align-items:center}
+  .manifest .lead{font-family:'Fraunces',serif; font-size:clamp(1.8rem,3.6vw,2.9rem); font-weight:400; line-height:1.22; color:var(--navy)}
+  .manifest .lead em{font-style:italic; color:var(--teal-d)}
+  .manifest .body p{color:var(--muted); font-size:1.05rem; margin-bottom:18px}
+  .manifest .body p:first-child::first-letter{font-family:'Fraunces',serif; font-size:3.4rem; float:left; line-height:.8; padding:6px 12px 0 0; color:var(--teal)}
+
+  /* Stats count-up */
+  .stats{background:var(--navy); color:#fff; border-radius:6px; overflow:hidden}
+  .stats-grid{display:grid; grid-template-columns:repeat(3,1fr)}
+  .stat{padding:clamp(38px,6vw,64px) 28px; text-align:center; border-right:1px solid rgba(255,255,255,.12)}
+  .stat:last-child{border-right:none}
+  .stat .num{font-family:'Fraunces',serif; font-size:clamp(2.6rem,5vw,3.6rem); font-weight:500; color:var(--amber); line-height:1}
+  .stat .lbl{font-size:.74rem; letter-spacing:.18em; text-transform:uppercase; margin-top:14px; opacity:.8}
+
+  /* Clip-path image reveal split */
+  .split{display:grid; grid-template-columns:1.05fr 1fr; gap:clamp(36px,6vw,80px); align-items:center}
+  .split.rev{grid-template-columns:1fr 1.05fr}
+  .clip-img{overflow:hidden; border-radius:4px}
+  .clip-img img{width:100%; height:clamp(360px,55vh,580px); object-fit:cover; clip-path:inset(0 0 100% 0); will-change:clip-path}
+  .split h2{font-size:clamp(2rem,4.5vw,3.4rem); color:var(--navy); margin-bottom:22px}
+  .split p{color:var(--muted); font-size:1.06rem; margin-bottom:16px}
+
+  /* Menu */
+  .menu-head{text-align:center; max-width:680px; margin:0 auto clamp(48px,7vw,80px)}
+  .menu-head h2{font-size:clamp(2.2rem,5.5vw,4rem); color:var(--navy); margin:14px 0}
+  .menu-head p{color:var(--muted); font-size:1.05rem}
+  .menu-cols{display:grid; grid-template-columns:1fr 1fr; gap:clamp(40px,6vw,90px)}
+  .menu-group h3{font-family:'Fraunces',serif; font-size:1.5rem; color:var(--teal-d); margin-bottom:6px; display:flex; align-items:center; gap:12px}
+  .menu-group .gdesc{font-style:italic; font-family:'Cormorant Garamond',serif; font-size:1.15rem; color:var(--muted); margin-bottom:26px}
+  .menu-item{padding:16px 0; border-bottom:1px dotted var(--line)}
+  .menu-item h4{font-family:'Fraunces',serif; font-size:1.15rem; font-weight:500; color:var(--ink)}
+  .menu-item p{color:var(--muted); font-size:.95rem; margin-top:4px}
+  .menu-note{text-align:center; margin-top:50px; font-style:italic; font-family:'Cormorant Garamond',serif; font-size:1.2rem; color:var(--muted)}
+
+  /* Gallery horizontal draggable */
+  .gallery-head{display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:40px; flex-wrap:wrap; gap:20px}
+  .gallery-head h2{font-size:clamp(2rem,4.5vw,3.2rem); color:var(--navy)}
+  .gallery-head .hint{font-size:.78rem; letter-spacing:.16em; text-transform:uppercase; color:var(--teal-d); display:flex; align-items:center; gap:8px}
+  .drag-track{display:flex; gap:22px; cursor:grab; padding-left:clamp(20px,5vw,64px); will-change:transform}
+  .drag-track.grabbing{cursor:grabbing}
+  .drag-wrap{overflow:hidden}
+  .gcard{flex:0 0 clamp(280px,42vw,460px); position:relative; border-radius:4px; overflow:hidden}
+  .gcard img{width:100%; height:clamp(330px,52vh,540px); object-fit:cover; pointer-events:none}
+  .gcard .cap{position:absolute; bottom:0; left:0; right:0; padding:40px 22px 18px; color:#fff; font-family:'Cormorant Garamond',serif; font-style:italic; font-size:1.15rem; background:linear-gradient(transparent,rgba(14,43,67,.7))}
+
+  /* Location */
+  .loc{background:var(--navy); color:#fff}
+  .loc-grid{display:grid; grid-template-columns:1fr 1fr; gap:clamp(40px,6vw,80px); align-items:center}
+  .loc h2{font-size:clamp(2rem,4.5vw,3.4rem); margin-bottom:22px}
+  .loc .info{margin-bottom:30px}
+  .loc .info h4{font-size:.74rem; letter-spacing:.18em; text-transform:uppercase; color:var(--amber); margin-bottom:8px}
+  .loc .info p{opacity:.88; font-size:1.04rem}
+  .loc a.tel{color:var(--amber)}
+  .map-frame{border-radius:6px; overflow:hidden; box-shadow:0 20px 50px rgba(0,0,0,.3)}
+  .map-frame iframe{width:100%; height:clamp(340px,52vh,460px); border:0; display:block; filter:saturate(.9)}
+  .hours{display:grid; gap:8px}
+  .hours .row{display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid rgba(255,255,255,.12); font-size:.98rem}
+  .hours .row span:first-child{opacity:.8}
+
+  /* CTA band */
+  .cta{text-align:center; background:var(--teal); color:#fff; border-radius:6px; padding:clamp(56px,9vw,100px) 24px; margin:0 auto}
+  .cta h2{font-size:clamp(2.2rem,5vw,3.8rem); margin-bottom:18px}
+  .cta p{font-family:'Cormorant Garamond',serif; font-style:italic; font-size:1.4rem; margin-bottom:34px; opacity:.96}
+  .cta .btn-res{background:#fff; color:var(--teal-d) !important; font-size:.86rem; padding:16px 34px}
+  .cta .btn-res:hover{background:var(--sand)}
+
+  /* Footer */
+  footer{background:var(--ink); color:rgba(255,255,255,.8); padding:clamp(60px,8vw,90px) 0 34px}
+  .foot-grid{display:grid; grid-template-columns:1.4fr 1fr 1fr; gap:40px; margin-bottom:50px}
+  footer .logo{color:#fff; margin-bottom:16px}
+  footer p{font-size:.96rem; opacity:.75; max-width:300px}
+  footer h5{font-size:.72rem; letter-spacing:.2em; text-transform:uppercase; color:var(--amber); margin-bottom:16px}
+  footer ul{list-style:none}
+  footer li{margin-bottom:10px; font-size:.96rem; opacity:.8}
+  footer a:hover{color:var(--teal)}
+  .foot-bot{border-top:1px solid rgba(255,255,255,.12); padding-top:24px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px; font-size:.82rem; opacity:.6}
+
+  @media(max-width:880px){
+    .nav-links{position:fixed; inset:0 0 0 auto; width:min(80vw,340px); background:var(--sand); flex-direction:column; justify-content:center; gap:30px; transform:translateX(100%); transition:.45s cubic-bezier(.7,0,.2,1); box-shadow:-20px 0 60px rgba(0,0,0,.15); z-index:60}
+    .nav-links.open{transform:translateX(0)}
+    .nav-links a{color:var(--ink) !important; font-size:1rem}
+    header.hero-light .nav-links a{color:var(--ink) !important}
+    .burger{display:flex; flex-direction:column; gap:5px; width:30px; cursor:pointer; z-index:70; background:none; border:0}
+    .burger span{height:2px; background:currentColor; display:block; transition:.3s; border-radius:2px}
+    header.hero-light .burger{color:#fff}
+    header.scrolled.hero-light .burger{color:var(--ink)}
+    .burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+    .burger.open span:nth-child(2){opacity:0}
+    .burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+    .burger.open{color:var(--ink)}
+    .manifest,.split,.split.rev,.menu-cols,.loc-grid,.foot-grid,.stats-grid{grid-template-columns:1fr}
+    .split.rev .clip-img{order:-1}
+    .stat{border-right:none; border-bottom:1px solid rgba(255,255,255,.12)}
+    .stat:last-child{border-bottom:none}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none !important; transition:none !important; scroll-behavior:auto !important}
+    .reveal{opacity:1 !important; transform:none !important}
+    .clip-img img{clip-path:inset(0 0 0 0) !important}
+  }
+</style>
+</head>
+<body>
+
+<header id="header" class="hero-light">
+  <a href="#top" class="logo">
+    <svg viewBox="0 0 32 32" fill="none"><path d="M3 20c4 0 6-3 9-7s7-8 14-9c-3 4-3 7-2 10 1 2 4 3 5 4-3 1-6 0-8-1-1 4-5 8-12 8-5 0-8-3-6-5z" fill="currentColor"/><circle cx="22" cy="9" r="1.1" fill="#0E2B43"/></svg>
+    Dupin
+  </a>
+  <nav class="nav">
+    <div class="nav-links" id="navLinks">
+      <a href="#prica">Priča</a>
+      <a href="#jelovnik">Jelovnik</a>
+      <a href="#galerija">Galerija</a>
+      <a href="#lokacija">Lokacija</a>
+      <a href="#lokacija" class="btn-res">Rezerviraj stol</a>
+    </div>
+    <button class="burger" id="burger" aria-label="Izbornik"><span></span><span></span><span></span></button>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="hero-media">
+    <img id="heroImg" src="https://images.unsplash.com/photo-1505228395891-9a51e7e86bf6?auto=format&fit=crop&w=2000&q=80" alt="Tirkizno Jadransko more uz obalu Biograda na Moru" />
+  </div>
+  <div class="wrap hero-inner">
+    <p class="eyebrow" style="color:#9fe3d8">Restoran i konoba · Biograd na Moru</p>
+    <h1>Tamo gdje more<br><em>pleše s tanjurom</em></h1>
+    <p class="tag">Svježa riba, sunce na pučini i okus Jadrana — kao kad dupin zaigra ispred pramca.</p>
+    <div class="meta">
+      <span>★ 4.5 / 414 recenzija</span>
+      <span>· Dalmatinska kuhinja</span>
+      <span>· Uz marinu</span>
+    </div>
+  </div>
+  <div class="scroll-ind"><div class="mouse"></div><span>Zaroni</span></div>
+</section>
+
+<!-- WAVE -->
+<div class="wave" aria-hidden="true">
+  <svg viewBox="0 0 1440 80" preserveAspectRatio="none"><path d="M0,40 C180,80 360,0 540,30 C720,60 900,10 1080,35 C1260,60 1380,30 1440,40" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+</div>
+
+<!-- MANIFEST -->
+<section class="pad" id="prica">
+  <div class="wrap manifest">
+    <div class="reveal">
+      <p class="eyebrow">Naša priča</p>
+      <p class="lead">Dupin je more na tanjuru — <em>jednostavno, svježe i pošteno</em>, onako kako se kuha tamo gdje ribar i kuhar dijele isti horizont.</p>
+    </div>
+    <div class="body reveal">
+      <p>U Biogradu na Moru, starom kraljevskom gradu okruženom morem i otocima, Dupin je mjesto gdje dan počinje mirisom soli, a završava zlatnim sutonom nad pučinom. Ime smo posudili od najdraže jadranske životinje — dupina, simbola igre, slobode i sreće za ribare.</p>
+      <p>Naša kuhinja vjeruje u malo sastojaka i puno mora. Riba ulovljena u zoru, maslinovo ulje iz okolnih maslinika, vino dalmatinskih vinograda i ruke koje znaju kada je dovoljno. Bez žurbe, bez pretjerivanja — samo iskren okus Jadrana.</p>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="wrap" style="padding-bottom:clamp(40px,6vw,70px)">
+  <div class="stats reveal">
+    <div class="stats-grid">
+      <div class="stat"><div class="num" data-count="4.5" data-dec="1">4.5</div><div class="lbl">★ Prosječna ocjena</div></div>
+      <div class="stat"><div class="num" data-count="414">414</div><div class="lbl">Recenzija gostiju</div></div>
+      <div class="stat"><div class="num" data-count="100" data-suffix="%">100%</div><div class="lbl">Svježe iz mora</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SPLIT 1 -->
+<section class="pad">
+  <div class="wrap split">
+    <div class="clip-img reveal"><img src="https://images.unsplash.com/photo-1535007813616-79dc02ba4021?auto=format&fit=crop&w=1400&q=80" alt="Svježa riba s roštilja s limunom i začinskim biljem" /></div>
+    <div class="reveal">
+      <p class="eyebrow">Iz mora na žar</p>
+      <h2>Riba koja jutros<br>nije znala za kuhinju</h2>
+      <p>Biramo ono što donese dan — orada, brancin, list, škarpina. Sve ide na žar uz grančicu ružmarina, kap maslinovog ulja i mrvicu soli. Ništa što bi prikrilo more; sve što ga slavi.</p>
+      <p>Uz ribu idu blitva s krumpirom, domaće tjestenine i hladno bijelo vino. Onako kako se jede uz obalu — polako, na otvorenom, s pogledom na valove.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SPLIT 2 -->
+<section class="pad" style="padding-top:0">
+  <div class="wrap split rev">
+    <div class="reveal">
+      <p class="eyebrow">Stol uz more</p>
+      <h2>Svjetlo, sol i<br>lagani povjetarac</h2>
+      <p>Naša terasa gleda na marinu i otoke. Danju je puna sunca i mirisa borova, navečer zlatna od zalazećeg svjetla nad pučinom. Plavo-bijeli tonovi, lagani lan, drvo isprano morem.</p>
+      <p>To je prostor za duge ručkove i sporije večere — za one trenutke kad vrijeme uspori jednako kao i valovi koji se vraćaju obali.</p>
+    </div>
+    <div class="clip-img reveal"><img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=1400&q=80" alt="Svijetli mediteranski interijer restorana uz more" /></div>
+  </div>
+</section>
+
+<!-- MENU -->
+<section class="pad" id="jelovnik" style="background:var(--sand-2)">
+  <div class="wrap">
+    <div class="menu-head reveal">
+      <p class="eyebrow">Jelovnik</p>
+      <h2>Okus Jadrana</h2>
+      <p>Mijenja se s ulovom i godišnjim dobima. Pitajte poslugu što je danas najsvježije — uvijek imamo nešto što je more donijelo jutros.</p>
+    </div>
+    <div class="menu-cols">
+      <div class="menu-group reveal">
+        <h3>Riba</h3>
+        <p class="gdesc">Cijela riba s roštilja, vagana pred vama</p>
+        <div class="menu-item"><h4>Orada na žaru</h4><p>Cijela orada s ružmarinom, maslinovim uljem i blitvom s krumpirom</p></div>
+        <div class="menu-item"><h4>Brancin u soli</h4><p>Pečen u kori morske soli, otkriva se uz stol, s domaćim limunovim uljem</p></div>
+        <div class="menu-item"><h4>Škarpina na lešo</h4><p>Kuhana s krumpirom, lovorom i kaparima — okus stare dalmatinske kuhinje</p></div>
+        <div class="menu-item"><h4>List na maslacu</h4><p>Filet lista lagano pirjan s peršinom i bijelim vinom</p></div>
+      </div>
+      <div class="menu-group reveal">
+        <h3>Školjke</h3>
+        <p class="gdesc">Iz hladnih jadranskih uvala</p>
+        <div class="menu-item"><h4>Dagnje na buzaru</h4><p>Na bijelo ili crveno, s češnjakom, peršinom i domaćim kruhom za umakanje</p></div>
+        <div class="menu-item"><h4>Kamenice iz Malostonskog zaljeva</h4><p>Sirove, samo s kapljom limuna — more u najčišćem obliku</p></div>
+        <div class="menu-item"><h4>Kapice gratinirane</h4><p>S prezlama, maslacem od bilja i mrvicom parmezana</p></div>
+      </div>
+      <div class="menu-group reveal">
+        <h3>Plodovi mora</h3>
+        <p class="gdesc">Žar, tava i more u svakom zalogaju</p>
+        <div class="menu-item"><h4>Crni rižoto</h4><p>S domaćim sipama i njihovom tintom, sjajan i mekan</p></div>
+        <div class="menu-item"><h4>Lignje na žaru</h4><p>S blitvom, češnjakom i kapljom maslinova ulja</p></div>
+        <div class="menu-item"><h4>Jadranske gambe na buzaru</h4><p>Velike kozice u umaku od rajčice, vina i začinskog bilja</p></div>
+        <div class="menu-item"><h4>Pjat plodova mora</h4><p>Miješani roštilj za dvoje — riba, lignje, gambe i školjke</p></div>
+      </div>
+      <div class="menu-group reveal">
+        <h3>Za početak i kraj</h3>
+        <p class="gdesc">Mali rituali stola uz more</p>
+        <div class="menu-item"><h4>Pjat pršuta i sira</h4><p>Dalmatinski pršut, ovčji sir s Paga, masline i kapari</p></div>
+        <div class="menu-item"><h4>Salata od hobotnice</h4><p>S mladim krumpirom, crvenim lukom, peršinom i maslinovim uljem</p></div>
+        <div class="menu-item"><h4>Rožata</h4><p>Domaći dalmatinski kremasti desert s aromom rožata likera</p></div>
+      </div>
+    </div>
+    <p class="menu-note reveal">Sve ribe i plodovi mora prodaju se po dnevnoj cijeni, ovisno o ulovu. — Dobar tek!</p>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="pad" id="galerija" style="padding-right:0">
+  <div class="wrap gallery-head reveal">
+    <div>
+      <p class="eyebrow">Galerija</p>
+      <h2>Trenutci uz more</h2>
+    </div>
+    <div class="hint">← Povucite za više →</div>
+  </div>
+  <div class="drag-wrap">
+    <div class="drag-track" id="dragTrack">
+      <div class="gcard"><img src="https://images.unsplash.com/photo-1559737558-2f5a35f4523b?auto=format&fit=crop&w=1100&q=80" alt="Plato svježih plodova mora"><div class="cap">Plodovi mora, posloženi na ledu</div></div>
+      <div class="gcard"><img src="https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&w=1100&q=80" alt="Riba s roštilja s limunom"><div class="cap">Riba s žara, s limunom i ružmarinom</div></div>
+      <div class="gcard"><img src="https://images.unsplash.com/photo-1444858345149-8ce5f8fb6c5c?auto=format&fit=crop&w=1100&q=80" alt="Marina i jedrilice u Biogradu"><div class="cap">Marina pred restoranom</div></div>
+      <div class="gcard"><img src="https://images.unsplash.com/photo-1572695157366-5e585ab2b69f?auto=format&fit=crop&w=1100&q=80" alt="Tanjur crnog rižota od sipe"><div class="cap">Crni rižoto od domaćih sipa</div></div>
+      <div class="gcard"><img src="https://images.unsplash.com/photo-1514516816566-de580c621376?auto=format&fit=crop&w=1100&q=80" alt="Tirkizno more i obala"><div class="cap">Tirkizna pučina pred Biogradom</div></div>
+      <div class="gcard"><img src="https://images.unsplash.com/photo-1551218808-94e220e084d2?auto=format&fit=crop&w=1100&q=80" alt="Postavljen stol uz more"><div class="cap">Stol spreman za goste</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- LOCATION -->
+<section class="pad loc" id="lokacija">
+  <div class="wrap loc-grid">
+    <div class="reveal">
+      <p class="eyebrow" style="color:var(--amber)">Lokacija i rezervacije</p>
+      <h2>Nađimo se<br>uz more</h2>
+      <div class="info">
+        <h4>Adresa</h4>
+        <p>Obala uz marinu · Biograd na Moru · Zadarska županija, Hrvatska</p>
+      </div>
+      <div class="info">
+        <h4>Rezervacije</h4>
+        <p><a class="tel" href="tel:+385915423885">+385 91 542 3885</a><br>Za veće društvo i posebne prigode javite se unaprijed.</p>
+      </div>
+      <div class="info">
+        <h4>Radno vrijeme</h4>
+        <div class="hours">
+          <div class="row"><span>Ponedjeljak – Petak</span><span>12:00 – 23:00</span></div>
+          <div class="row"><span>Subota</span><span>12:00 – 24:00</span></div>
+          <div class="row"><span>Nedjelja</span><span>12:00 – 23:00</span></div>
+        </div>
+      </div>
+      <a href="tel:+385915423885" class="btn-res" style="display:inline-block;margin-top:10px">Rezerviraj stol</a>
+    </div>
+    <div class="map-frame reveal">
+      <iframe src="https://maps.google.com/maps?q=Restoran+Dupin+Biograd+na+Moru&output=embed" loading="lazy" title="Karta — Dupin, Biograd na Moru" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="pad" style="padding-top:0">
+  <div class="wrap">
+    <div class="cta reveal">
+      <h2>Stol vas čeka uz pučinu</h2>
+      <p>Dođite na ručak u sjeni borova ili na večeru pod zvijezdama nad morem.</p>
+      <a href="tel:+385915423885" class="btn-res">Rezerviraj stol · +385 91 542 3885</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="logo"><svg viewBox="0 0 32 32" fill="none" style="width:28px;height:28px"><path d="M3 20c4 0 6-3 9-7s7-8 14-9c-3 4-3 7-2 10 1 2 4 3 5 4-3 1-6 0-8-1-1 4-5 8-12 8-5 0-8-3-6-5z" fill="currentColor"/></svg> Dupin</div>
+        <p>Restoran svježe ribe i plodova mora u Biogradu na Moru. More na tanjuru — jednostavno, svježe i pošteno.</p>
+      </div>
+      <div>
+        <h5>Izbornik</h5>
+        <ul>
+          <li><a href="#prica">Priča</a></li>
+          <li><a href="#jelovnik">Jelovnik</a></li>
+          <li><a href="#galerija">Galerija</a></li>
+          <li><a href="#lokacija">Lokacija</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Kontakt</h5>
+        <ul>
+          <li><a href="tel:+385915423885">+385 91 542 3885</a></li>
+          <li>Biograd na Moru, Hrvatska</li>
+          <li>Pon – Ned · 12:00 – 23:00</li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <span>© 2026 Restoran Dupin · Biograd na Moru</span>
+      <span>Stvoreno s ljubavlju prema moru</span>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+<script>
+const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// Header
+const header = document.getElementById('header');
+const onScroll = () => header.classList.toggle('scrolled', window.scrollY > 60);
+onScroll(); window.addEventListener('scroll', onScroll, {passive:true});
+
+// Mobile nav
+const burger = document.getElementById('burger');
+const navLinks = document.getElementById('navLinks');
+burger.addEventListener('click', () => { burger.classList.toggle('open'); navLinks.classList.toggle('open'); });
+navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { burger.classList.remove('open'); navLinks.classList.remove('open'); }));
+
+if(!reduce){
+  // Lenis
+  const lenis = new Lenis({ lerp:0.1, smoothWheel:true });
+  function raf(t){ lenis.raf(t); requestAnimationFrame(raf); }
+  requestAnimationFrame(raf);
+  gsap.registerPlugin(ScrollTrigger);
+  lenis.on('scroll', ScrollTrigger.update);
+
+  // Hero parallax
+  gsap.to('#heroImg', { yPercent:14, ease:'none', scrollTrigger:{ trigger:'.hero', start:'top top', end:'bottom top', scrub:true } });
+
+  // Reveals
+  gsap.utils.toArray('.reveal').forEach(el => {
+    gsap.to(el, { opacity:1, y:0, duration:1, ease:'power3.out',
+      scrollTrigger:{ trigger:el, start:'top 86%' } });
+  });
+
+  // Clip-path image reveals
+  gsap.utils.toArray('.clip-img img').forEach(img => {
+    gsap.to(img, { clipPath:'inset(0 0 0% 0)', duration:1.3, ease:'power3.out',
+      scrollTrigger:{ trigger:img, start:'top 82%' } });
+  });
+
+  // Count up
+  gsap.utils.toArray('.num').forEach(el => {
+    const end = parseFloat(el.dataset.count); const dec = parseInt(el.dataset.dec||0); const suf = el.dataset.suffix||'';
+    const obj = {v:0};
+    ScrollTrigger.create({ trigger:el, start:'top 88%', once:true, onEnter:()=>{
+      gsap.to(obj, { v:end, duration:1.8, ease:'power2.out', onUpdate:()=>{ el.textContent = obj.v.toFixed(dec) + suf; } });
+    }});
+  });
+} else {
+  document.querySelectorAll('.reveal').forEach(el=>{el.style.opacity=1;el.style.transform='none';});
+}
+
+// Draggable gallery (works regardless of reduced motion)
+(function(){
+  const track = document.getElementById('dragTrack');
+  let isDown=false, startX, scrollLeft=0, x=0, maxX=0;
+  const calcMax = () => { maxX = track.scrollWidth - track.parentElement.clientWidth + (window.innerWidth>880?64:20); };
+  calcMax(); window.addEventListener('resize', calcMax);
+  function setX(v){ x=Math.max(-maxX, Math.min(0, v)); track.style.transform=`translateX(${x}px)`; }
+  track.addEventListener('pointerdown', e=>{ isDown=true; startX=e.clientX; scrollLeft=x; track.classList.add('grabbing'); track.setPointerCapture(e.pointerId); });
+  track.addEventListener('pointermove', e=>{ if(!isDown)return; setX(scrollLeft + (e.clientX-startX)); });
+  const end=()=>{ isDown=false; track.classList.remove('grabbing'); };
+  track.addEventListener('pointerup', end); track.addEventListener('pointercancel', end);
+  track.addEventListener('wheel', e=>{ if(Math.abs(e.deltaX)>Math.abs(e.deltaY)){ e.preventDefault(); setX(x - e.deltaX); } }, {passive:false});
+})();
+</script>
+</body>
+</html>
