@@ -431,7 +431,7 @@ navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { 
 
 if(!reduce){
   // Lenis
-  const lenis = new Lenis({ lerp:0.1, smoothWheel:true });
+  const lenis = new Lenis({lerp:0.2, wheelMultiplier:1, smoothWheel:true, syncTouch:false});
   function raf(t){ lenis.raf(t); requestAnimationFrame(raf); }
   requestAnimationFrame(raf);
   gsap.registerPlugin(ScrollTrigger);
