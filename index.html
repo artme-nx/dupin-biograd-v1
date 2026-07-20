@@ -202,7 +202,7 @@
 <!-- HERO -->
 <section class="hero" id="top">
   <div class="hero-media">
-    <img id="heroImg" src="https://images.unsplash.com/photo-1505228395891-9a51e7e86bf6?auto=format&fit=crop&w=2000&q=80" alt="Tirkizno Jadransko more uz obalu Biograda na Moru" />
+    <img id="heroImg" src="img/dupin-vrt-terasa.webp" alt="Vrtna terasa restorana Dupin s drvenim stolovima pod natkrivenom pergolom" />
   </div>
   <div class="wrap hero-inner">
     <p class="eyebrow" style="color:#9fe3d8">Restoran i konoba · Biograd na Moru</p>
@@ -250,7 +250,7 @@
 <!-- SPLIT 1 -->
 <section class="pad">
   <div class="wrap split">
-    <div class="clip-img reveal"><img src="https://images.unsplash.com/photo-1535007813616-79dc02ba4021?auto=format&fit=crop&w=1400&q=80" alt="Svježa riba s roštilja s limunom i začinskim biljem" /></div>
+    <div class="clip-img reveal"><img src="img/dupin-zar-plata.webp" alt="Lignje s gradela s rukolom i limunom, u restoranu Dupin" /></div>
     <div class="reveal">
       <p class="eyebrow">Iz mora na žar</p>
       <h2>Riba koja jutros<br>nije znala za kuhinju</h2>
@@ -269,7 +269,7 @@
       <p>Naša terasa gleda na marinu i otoke. Danju je puna sunca i mirisa borova, navečer zlatna od zalazećeg svjetla nad pučinom. Plavo-bijeli tonovi, lagani lan, drvo isprano morem.</p>
       <p>To je prostor za duge ručkove i sporije večere — za one trenutke kad vrijeme uspori jednako kao i valovi koji se vraćaju obali.</p>
     </div>
-    <div class="clip-img reveal"><img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=1400&q=80" alt="Svijetli mediteranski interijer restorana uz more" /></div>
+    <div class="clip-img reveal"><img src="img/dupin-interijer-lukovi.webp" alt="Interijer restorana Dupin — terakota zidovi, lučni prozori s drvenim kapcima i drveni stolovi" /></div>
   </div>
 </section>
 
@@ -328,12 +328,11 @@
   </div>
   <div class="drag-wrap">
     <div class="drag-track" id="dragTrack">
-      <div class="gcard"><img src="https://images.unsplash.com/photo-1559737558-2f5a35f4523b?auto=format&fit=crop&w=1100&q=80" alt="Plato svježih plodova mora"><div class="cap">Plodovi mora, posloženi na ledu</div></div>
-      <div class="gcard"><img src="https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&w=1100&q=80" alt="Riba s roštilja s limunom"><div class="cap">Riba s žara, s limunom i ružmarinom</div></div>
-      <div class="gcard"><img src="https://images.unsplash.com/photo-1444858345149-8ce5f8fb6c5c?auto=format&fit=crop&w=1100&q=80" alt="Marina i jedrilice u Biogradu"><div class="cap">Marina pred restoranom</div></div>
-      <div class="gcard"><img src="https://images.unsplash.com/photo-1572695157366-5e585ab2b69f?auto=format&fit=crop&w=1100&q=80" alt="Tanjur crnog rižota od sipe"><div class="cap">Crni rižoto od domaćih sipa</div></div>
-      <div class="gcard"><img src="https://images.unsplash.com/photo-1514516816566-de580c621376?auto=format&fit=crop&w=1100&q=80" alt="Tirkizno more i obala"><div class="cap">Tirkizna pučina pred Biogradom</div></div>
-      <div class="gcard"><img src="https://images.unsplash.com/photo-1551218808-94e220e084d2?auto=format&fit=crop&w=1100&q=80" alt="Postavljen stol uz more"><div class="cap">Stol spreman za goste</div></div>
+      <div class="gcard"><img src="img/dupin-dagnje-buzara.webp" alt="Dagnje na buzaru sa špagetima u glinenoj zdjeli"><div class="cap">Dagnje na buzaru, sa špagetima</div></div>
+      <div class="gcard"><img src="img/dupin-raznjici-gambera.webp" alt="Ražnjići od gambera s rižom i maslinama"><div class="cap">Ražnjići od gambera, na riži</div></div>
+      <div class="gcard"><img src="img/dupin-biftek-krumpir.webp" alt="Meso s gradela s pečenim krumpirom, ajvarom i vrhnjem"><div class="cap">S gradela, uz pečeni krumpir</div></div>
+      <div class="gcard"><img src="img/dupin-spare-ribs.webp" alt="Spare ribs na drvenoj dasci s pečenim krumpirom i umakom"><div class="cap">Spare ribs, na dasci</div></div>
+      <div class="gcard"><img src="img/dupin-pileci-snicel.webp" alt="Pileći odrezak s gradela s pečenim krumpirom i povrćem"><div class="cap">Pileći odrezak s gradela</div></div>
     </div>
   </div>
 </section>
@@ -431,9 +430,9 @@ navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { 
 
 if(!reduce){
   // Lenis
-  const lenis = new Lenis({lerp:0.2, wheelMultiplier:1, smoothWheel:true, syncTouch:false});
-  function raf(t){ lenis.raf(t); requestAnimationFrame(raf); }
-  requestAnimationFrame(raf);
+  const lenis = new Lenis({lerp:0.1, wheelMultiplier:1, smoothWheel:true, syncTouch:false}); window.__lenis = lenis;
+  gsap.ticker.add(function(t){ lenis.raf(t*1000); });
+  gsap.ticker.lagSmoothing(0);
   gsap.registerPlugin(ScrollTrigger);
   lenis.on('scroll', ScrollTrigger.update);
 
@@ -476,6 +475,48 @@ if(!reduce){
   const end=()=>{ isDown=false; track.classList.remove('grabbing'); };
   track.addEventListener('pointerup', end); track.addEventListener('pointercancel', end);
   track.addEventListener('wheel', e=>{ if(Math.abs(e.deltaX)>Math.abs(e.deltaY)){ e.preventDefault(); setX(x - e.deltaX); } }, {passive:false});
+})();
+</script>
+
+<script>
+/* QA scroll-fix — glatko, bez lomova i preskakanja (mobitel prioritet) */
+(function(){
+  var lenis = window.__lenis || null;
+
+  /* jedinstveni smooth-scroll ulaz: Lenis ako postoji, inače nativni */
+  window.__smoothTo = function(target){
+    var el = (typeof target === 'string') ? document.querySelector(target) : target;
+    if(!el) return;
+    if(lenis){ lenis.scrollTo(el, {offset:0, duration:1.1}); }
+    else { el.scrollIntoView({behavior:'smooth', block:'start'}); }
+  };
+
+  /* anchor linkovi kroz isti ulaz — nema nativnog skoka preko Lenisa */
+  document.querySelectorAll('a[href^="#"]').forEach(function(a){
+    var href = a.getAttribute('href');
+    if(!href || href === '#') return;
+    a.addEventListener('click', function(e){
+      var el = document.querySelector(href);
+      if(!el) return;
+      e.preventDefault();
+      window.__smoothTo(el);
+      if(history.replaceState) history.replaceState(null, '', href);
+    });
+  });
+
+  /* ScrollTrigger pozicije preračunati kad se layout slegne (slike!) */
+  if(window.ScrollTrigger){
+    var refresh = function(){ ScrollTrigger.refresh(); };
+    window.addEventListener('load', refresh);
+    if(document.fonts && document.fonts.ready) document.fonts.ready.then(refresh);
+    document.querySelectorAll('img').forEach(function(img){
+      if(!img.complete) img.addEventListener('load', refresh, {once:true});
+    });
+    var rt; window.addEventListener('resize', function(){
+      clearTimeout(rt); rt = setTimeout(refresh, 150);
+    }, {passive:true});
+    setTimeout(refresh, 600);
+  }
 })();
 </script>
 </body>
